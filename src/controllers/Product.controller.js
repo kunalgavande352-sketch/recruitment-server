@@ -15,6 +15,33 @@ export const createProduct = async (req,res,next) => {
         next(error);
     }
 }
+
+
+
+export const getProductById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const product = await productRepository.findProductById(id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Product fetched successfully",
+      data: product,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
     export const updateProduct = async (req,res,next) => {
         try {
     const { id } = req.params;
@@ -62,4 +89,4 @@ export const createProduct = async (req,res,next) => {
          } catch (error) {
             next(error);
          }
-    }
+        }
